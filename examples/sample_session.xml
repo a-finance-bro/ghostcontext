@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ghostcontext_session id="a1b2c3d4e5f6" started_at="2026-01-15T18:42:00+00:00" app_version="0.3.0">
+  <meta>
+    <audio>faster-whisper base.en over device 'MacBook Pro Microphone' channels[0:me]</audio>
+    <legend>Event-driven timeline. Full keyframes carry the whole state; deltas carry only what changed since the previous event. &lt;capture&gt; entries are voice-triggered (a deictic phrase) and are always self-contained.</legend>
+  </meta>
+  <timeline>
+
+    <!-- Full keyframe: a QA pass opens on the web app. -->
+    <event t="00:00.000" kind="focus" trigger="session_start">
+      <app name="Google Chrome" bundle="com.google.Chrome"/>
+      <window title="Products — Storefront"/>
+      <url>https://app.example.com/products</url>
+      <cursor x="806" y="452"/>
+    </event>
+
+    <utterance t="00:05.220" source="me">Okay, walking through the checkout flow to reproduce that bug.</utterance>
+
+    <!-- Delta: same page, only the scroll + cursor changed. -->
+    <event t="00:08.740" kind="scroll" trigger="scroll" mode="delta">
+      <cursor x="806" y="611"/>
+      <note>scrolled down 4</note>
+    </event>
+
+    <utterance t="00:13.010" source="me">I add this item here to the cart and go to checkout.</utterance>
+
+    <!-- Voice-triggered capture on the web page: DOM element under the cursor + OCR. -->
+    <event t="00:13.010" kind="capture" trigger="deictic" phrase="this item here">
+      <app name="Google Chrome" bundle="com.google.Chrome"/>
+      <window title="Products — Storefront"/>
+      <url>https://app.example.com/products</url>
+      <dom>
+        <pointing tag="button" role="button" class="add-to-cart">Add to cart — Wireless Mouse ($24)</pointing>
+        <salient>
+          <el tag="h1">Products</el>
+          <el tag="button">Checkout</el>
+        </salient>
+      </dom>
+      <sources>ax, dom, ocr</sources>
+      <ocr region="cursor" image="screenshots/capture-00_13.png">Wireless Mouse · $24 · Add to cart</ocr>
+      <cursor x="612" y="388"/>
+    </event>
+
+    <event t="00:31.220" kind="click" trigger="click" mode="delta">
+      <cursor x="905" y="196"/>
+      <note>left click</note>
+    </event>
+
+    <!-- Full keyframe: the checkout page (URL changed). -->
+    <event t="00:44.510" kind="focus" trigger="app_activated">
+      <app name="Google Chrome" bundle="com.google.Chrome"/>
+      <window title="Checkout — Storefront"/>
+      <url>https://app.example.com/checkout</url>
+      <cursor x="640" y="300"/>
+    </event>
+
+    <utterance t="00:52.870" source="me">I fill in the card, hit submit, and I get this error right here.</utterance>
+
+    <!-- The bug: DOM resolves the error element + OCR reads it. -->
+    <event t="00:52.870" kind="capture" trigger="deictic" phrase="this error right here">
+      <app name="Google Chrome" bundle="com.google.Chrome"/>
+      <window title="Checkout — Storefront"/>
+      <url>https://app.example.com/checkout</url>
+      <dom>
+        <pointing tag="div" role="alert" class="form-error">Card was declined (code 402).</pointing>
+        <salient>
+          <el tag="button">Place order</el>
+          <el tag="input" aria="Card number"/>
+        </salient>
+      </dom>
+      <sources>ax, dom, ocr</sources>
+      <ocr region="cursor" image="screenshots/capture-00_52.png">Card was declined (code 402). · Place order</ocr>
+      <cursor x="648" y="470"/>
+    </event>
+
+    <utterance t="01:05.300" source="me">Let me check the code that handles the decline.</utterance>
+
+    <!-- Full keyframe: focus changed to the editor — carries the code snippet. -->
+    <event t="01:14.220" kind="focus" trigger="app_activated">
+      <app name="Visual Studio Code" bundle="com.microsoft.VSCode"/>
+      <window title="checkout.ts — storefront"/>
+      <code file="src/lib/checkout.ts" line="142" lang="ts">
+        <snippet start_line="132"><![CDATA[
+export async function placeOrder(cart: Cart, card: Card): Promise<OrderResult> {
+  const charge = await gateway.charge(card, cart.total);
+  if (charge.status !== "ok") {
+    // BUG: we surface the raw gateway code instead of a friendly message,
+    // and we never retry a soft decline (402) — the user just sees an error.
+    return { ok: false, error: `Card was declined (code ${charge.code}).` };
+  }
+  return { ok: true, orderId: await orders.create(cart) };
+}
+        ]]></snippet>
+      </code>
+      <cursor x="520" y="404"/>
+    </event>
+
+    <utterance t="01:22.010" source="me">Yeah, so this line right here just passes the raw code straight through.</utterance>
+
+    <event t="01:22.010" kind="capture" trigger="deictic" phrase="this line right here">
+      <app name="Visual Studio Code" bundle="com.microsoft.VSCode"/>
+      <window title="checkout.ts — storefront"/>
+      <code file="src/lib/checkout.ts" line="142" lang="ts">
+        <snippet start_line="138"><![CDATA[
+  if (charge.status !== "ok") {
+    return { ok: false, error: `Card was declined (code ${charge.code}).` };
+  }
+        ]]></snippet>
+      </code>
+      <sources>ax, ocr</sources>
+      <ocr region="cursor" image="screenshots/capture-01_22.png">return { ok: false, error: `Card was declined (code ${charge.code}).` };</ocr>
+      <cursor x="470" y="388"/>
+    </event>
+
+    <utterance t="01:36.540" source="me">So the fix is to map soft declines to a retry and a friendly message.</utterance>
+
+  </timeline>
+</ghostcontext_session>

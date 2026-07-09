@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.egg-info/
+build/
+dist/
+# Session output is generated locally; don't commit real recordings (they can
+# contain on-screen PII, URLs, and transcript text).
+sessions/
+*.session.xml
+!examples/*.xml
+# Personal demo runbooks (kept locally, not part of the published project).
+DEMO_*.md

@@ -1,0 +1,14 @@
+# Mock talk-track for `python -m ghostcontext --mock examples/mock_transcript.jsonl`.
+# Lines are replayed on schedule (t = seconds from start) over your LIVE screen
+# activity, so the focus/click/scroll hooks + Accessibility capture run for real.
+# Lines with a deictic marker (e.g. "this line", "look at this") fire a capture.
+{"t": 6,  "source": "them", "text": "Cool, so this is the page you were telling me about?"}
+{"t": 12, "source": "me",   "text": "Yeah. The toggle up here lets you flip between the two views."}
+{"t": 20, "source": "me",   "text": "Let me jump into the editor real quick."}
+{"t": 38, "source": "me",   "text": "Okay so if you look at this red line right here, that is the glitch I was hitting."}
+{"t": 46, "source": "them", "text": "Got it, so the default is excluding it?"}
+{"t": 53, "source": "me",   "text": "Exactly. Let me show you what the user actually sees."}
+{"t": 72, "source": "me",   "text": "And look at this empty state here, that is wrong, there should be one item."}
+{"t": 88, "source": "them", "text": "Makes sense. Can you push a fix before our call tomorrow?"}
+{"t": 96, "source": "me",   "text": "Yeah, I will default it to the active view and ship it tonight."}
+{"t": 112,"source": "them", "text": "Perfect, thanks for walking me through it."}

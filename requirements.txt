@@ -1,0 +1,19 @@
+# GhostContext — macOS prototype dependencies.
+#
+# NOTE ON PYTHON VERSION: faster-whisper (via CTranslate2) currently ships wheels
+# for CPython 3.9–3.12. If you're on 3.13/3.14, create the venv with an older
+# interpreter (e.g. `python3.12 -m venv .venv`) — see the README. Everything
+# except the STT engine works on any 3.10+.
+
+# --- macOS event hooks + Accessibility / AppKit bridges ---
+pyobjc-core>=10.3
+pyobjc-framework-Cocoa>=10.3            # AppKit / Foundation / NSWorkspace
+pyobjc-framework-Quartz>=10.3           # CoreGraphics: cursor position, event taps
+pyobjc-framework-ApplicationServices>=10.3  # Accessibility (AXUIElement) API
+pyobjc-framework-Vision>=10.3           # on-device OCR (screenshot → text)
+pynput>=1.7.7                            # cross-thread mouse click / scroll listener
+
+# --- Real-time local speech-to-text (mic + system audio) ---
+sounddevice>=0.4.6                       # PortAudio capture from the aggregate device
+numpy>=1.24
+faster-whisper>=1.0.0                    # local Whisper (CTranslate2) — no cloud

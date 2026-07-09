@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ghostcontext"
+version = "0.3.0"
+description = "Record what you do and say on screen as a structured, agent-readable XML timeline (macOS)."
+readme = "README.md"
+requires-python = ">=3.9,<3.13"
+license = { text = "MIT" }
+keywords = ["macos", "accessibility", "ocr", "transcription", "ai-agents", "mcp", "screen-recording"]
+classifiers = [
+  "Environment :: MacOS X",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Documentation",
+]
+dependencies = [
+  "pyobjc-core>=10.3",
+  "pyobjc-framework-Cocoa>=10.3",
+  "pyobjc-framework-Quartz>=10.3",
+  "pyobjc-framework-ApplicationServices>=10.3",
+  "pyobjc-framework-Vision>=10.3",
+  "pynput>=1.7.7",
+  "sounddevice>=0.4.6",
+  "numpy>=1.24",
+  "faster-whisper>=1.0.0",
+]
+
+[project.optional-dependencies]
+# MCP server (let an AI agent drive recordings + read sessions).
+mcp = ["mcp>=1.2.0"]
+
+[project.scripts]
+ghostcontext = "ghostcontext.main:main"
+gcrecord = "ghostcontext.cli_record:main"
+ghostcontext-mcp = "ghostcontext.mcp_server:main"
+
+[tool.setuptools]
+packages = ["ghostcontext"]
