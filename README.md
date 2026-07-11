@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/banner.png" alt="GhostContext — your screen and voice, as an agent-readable timeline" width="100%" />
+</p>
+
 # 👻 GhostContext
 
 **Narrate what you're doing on screen; get back structured text your AI agent can read.**
