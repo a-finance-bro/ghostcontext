@@ -6,4 +6,4 @@ agents (Claude, etc.) can ingest to understand exactly what you were doing and
 referring to during a live/pairing session.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"

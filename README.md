@@ -15,6 +15,11 @@ Think of it as a screen recording, but in structured text instead of pixels:
 token-efficient, precise, and instantly readable by an LLM — whether you're filing a
 bug, running a QA pass, debugging code, or narrating a user interview.
 
+> **Prefer Go, or want to embed it?** [**gostcontext**](https://github.com/a-finance-bro/gostcontext)
+> is a lightweight, dependency-free reimplementation as an importable **Go module**
+> (plus a CLI) — native macOS frameworks through cgo, nothing to install, drop it
+> straight into a Go app.
+
 ## Contents
 
 - [The problem](#the-problem)
@@ -49,9 +54,11 @@ And in every case the crucial link is lost: *what you were pointing at when you 
 
 Capture the session **as it happens**, as clean structured text:
 
-- **Event-driven, not polling.** Reacts to real events — window/app switches,
-  clicks, scrolls — instead of sampling on a timer. Never misses a fast interaction,
-  never logs a redundant frame.
+- **Event-driven, not polling.** Reacts to real events — window/app/tab switches,
+  clicks, scrolls, text selections, copies (⌘C/⌘X), field edits, and drags —
+  instead of sampling on a timer. Never misses a fast interaction, never logs a
+  redundant frame. The keyboard is only tapped for the copy chord; no keystroke
+  logging.
 - **Voice-triggered captures.** Say a pointer phrase like *"look at this"* or
   *"right here"* and it snapshots what you were pointing at, mapping your words to
   the exact spot on screen — no manual screenshot button.
@@ -101,6 +108,9 @@ replay, share, or feed to an agent to script or document.
   stop, a live transcript, and every setting in one place.
 - **Real-time local speech-to-text** (faster-whisper) over your mic, and system
   audio too (via an aggregate device), speaker-attributed.
+- **Full action capture:** clicks, scrolls, **text selections**, **copies** (⌘C/⌘X,
+  with the copied text), **field edits**, **drags**, and app/window/tab switches —
+  each resolved to what was under the cursor. Toggle any kind off in the config.
 - **Editor-aware:** active file path, cursor line, and a ~20-line snippet read
   straight from disk.
 - **Browser-aware:** the live DOM, including the **element directly under your

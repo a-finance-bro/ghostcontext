@@ -13,7 +13,11 @@ from .clock import SessionClock
 from .delta import RenderPlan
 from .events import (
     KIND_CAPTURE,
+    KIND_COPY,
+    KIND_DRAG,
+    KIND_SELECTION,
     KIND_UTTERANCE,
+    KIND_VALUE,
     Event,
 )
 
@@ -108,6 +112,14 @@ class XmlTimelineWriter:
             if fields.get("code") and ctx.code is not None:
                 self._write_code(ctx.code)
             self._write_deep(ctx)
+
+        # Payload for the action kinds (the highlighted / copied / edited text).
+        if event.text and event.kind in (KIND_SELECTION, KIND_COPY, KIND_VALUE):
+            w(f"      <{event.kind}>{escape(event.text)}</{event.kind}>\n")
+        if event.kind == KIND_DRAG and event.meta:
+            frm, to = event.meta.get("from"), event.meta.get("to")
+            if frm and to:
+                w(f'      <drag fromX="{frm[0]}" fromY="{frm[1]}" toX="{to[0]}" toY="{to[1]}"/>\n')
 
         if event.cursor is not None:
             w(f'      <cursor x="{event.cursor[0]}" y="{event.cursor[1]}"/>\n')

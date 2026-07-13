@@ -157,6 +157,35 @@ def focused_element_text(pid: Optional[int]) -> Optional[str]:
     return str(val) if val else None
 
 
+def _focused_element(pid: Optional[int]):
+    if pid is None:
+        return None
+    return _ax_value(_app_element(pid), AX.kAXFocusedUIElementAttribute)
+
+
+def focused_selected_text(pid: Optional[int]) -> Optional[str]:
+    """The selected (highlighted) text of the focused element, or None."""
+    sel = _ax_value(_focused_element(pid), AX.kAXSelectedTextAttribute)
+    return str(sel) if sel else None
+
+
+def focused_value(pid: Optional[int]) -> Optional[str]:
+    """The value of the focused element (e.g. what's typed in a field), or None."""
+    val = _ax_value(_focused_element(pid), AX.kAXValueAttribute)
+    return str(val) if val else None
+
+
+def clipboard_text() -> Optional[str]:
+    """The general pasteboard's string contents — read after a copy, or None."""
+    try:
+        from AppKit import NSPasteboard, NSPasteboardTypeString
+
+        s = NSPasteboard.generalPasteboard().stringForType_(NSPasteboardTypeString)
+        return str(s) if s else None
+    except Exception:
+        return None
+
+
 def focused_document_path(pid: Optional[int]) -> Optional[str]:
     """Full path of the document in the focused window, via the window's
     kAXDocumentAttribute (a file:// URL that many document apps — including VS

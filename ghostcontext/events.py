@@ -88,6 +88,10 @@ class ScreenContext:
 KIND_FOCUS = "focus"        # app/window/tab changed
 KIND_CLICK = "click"        # mouse click
 KIND_SCROLL = "scroll"      # meaningful scroll
+KIND_SELECTION = "selection"  # text highlighted (mouse-up over a selection)
+KIND_COPY = "copy"          # ⌘C / ⌘X — the copied text
+KIND_VALUE = "value"        # the focused field's value changed (typing)
+KIND_DRAG = "drag"          # a mouse drag from one point to another
 KIND_CAPTURE = "capture"    # voice-triggered "smart" capture (deictic marker)
 KIND_UTTERANCE = "utterance"  # a transcript segment (speech)
 

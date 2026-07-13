@@ -102,3 +102,11 @@ class Config:
     # match several times a sentence; this coalesces them so we don't fire a
     # screenshot+OCR+DOM burst on every breath. The utterance is still logged.
     capture_cooldown_seconds: float = 1.5
+    # Non-voice action capture, all event-driven. Toggle any of these off if you
+    # only want the voice-triggered timeline.
+    capture_selection: bool = True   # text highlighted (read on mouse-up via AX)
+    capture_copy: bool = True        # ⌘C / ⌘X — logs the copied text
+    capture_value: bool = True       # focused-field edits while typing
+    capture_drag: bool = True        # mouse drags (release that moved without selecting)
+    drag_min_pixels: int = 8         # travel a mouse-up must exceed to count as a drag
+    value_min_interval_seconds: float = 1.0  # rate-limit value events so typing doesn't flood
